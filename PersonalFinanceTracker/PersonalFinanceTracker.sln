@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalFinanceTracker", "PersonalFinanceTracker.csproj", "{D583FB1E-44DB-486C-9E80-8C153D737A7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalFinanceTracker.SQL", "..\PersonalFinanceTracker.SQL\PersonalFinanceTracker.SQL.csproj", "{B7A75499-6278-409F-B63D-52AFC8E14294}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D583FB1E-44DB-486C-9E80-8C153D737A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D583FB1E-44DB-486C-9E80-8C153D737A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D583FB1E-44DB-486C-9E80-8C153D737A7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7A75499-6278-409F-B63D-52AFC8E14294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7A75499-6278-409F-B63D-52AFC8E14294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7A75499-6278-409F-B63D-52AFC8E14294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7A75499-6278-409F-B63D-52AFC8E14294}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
