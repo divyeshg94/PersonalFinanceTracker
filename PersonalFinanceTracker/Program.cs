@@ -6,13 +6,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using PersonalFinanceTracker.Model;
+using PersonalFinanceTracker.Model.Helpers;
+using PersonalFinanceTracker.Service;
 using PersonalFinanceTracker.SQL;
+using PersonalFinanceTracker.SQL.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+
+builder.Services.Configure<EncryptionSettings>(builder.Configuration.GetSection("EncryptionSettings"));
 
 builder.Services.AddDbContext<PFTDbContext, PFTDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -22,6 +28,14 @@ builder.Services.AddDbContext<PFTDbContext, PFTDbContext>(options =>
     errorNumbersToAdd: null))  // Optionally specify SQL error numbers to retry on
 );
 
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IRepository<Income>, Repository<Income>>();
+
+builder.Services.AddSingleton<EncryptionHelper>();
+builder.Services.AddScoped<IncomeService>();
+builder.Services.AddScoped<UsersService>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllersWithViews(options =>
 {

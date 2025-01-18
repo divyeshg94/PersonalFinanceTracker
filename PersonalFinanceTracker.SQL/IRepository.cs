@@ -1,4 +1,6 @@
-﻿namespace PersonalFinanceTracker.SQL
+﻿using PersonalFinanceTracker.Model;
+
+namespace PersonalFinanceTracker.SQL
 {
     public interface IRepository<T> where T : class
     {

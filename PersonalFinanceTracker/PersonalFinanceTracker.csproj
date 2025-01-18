@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PersonalFinanceTracker.Model\PersonalFinanceTracker.Model.csproj" />
+    <ProjectReference Include="..\PersonalFinanceTracker.Service\PersonalFinanceTracker.Service.csproj" />
     <ProjectReference Include="..\PersonalFinanceTracker.SQL\PersonalFinanceTracker.SQL.csproj" />
   </ItemGroup>
 

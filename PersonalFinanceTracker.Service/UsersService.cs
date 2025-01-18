@@ -1,4 +1,5 @@
-﻿using PersonalFinanceTracker.SQL;
+﻿using PersonalFinanceTracker.Model;
+using PersonalFinanceTracker.SQL;
 using PersonalFinanceTracker.SQL.Models;
 
 namespace PersonalFinanceTracker.Service
