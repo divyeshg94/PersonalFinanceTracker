@@ -32,6 +32,7 @@ namespace PersonalFinanceTracker.Model
         public Guid UserId { get; set; }
         public Guid? BankId { get; set; }
         public string CurrencyCode { get; set; }
+        public List<BankBasicInfo> Banks { get; set; }
         public List<string> UserCurrencies { get; set; }
     }
 }

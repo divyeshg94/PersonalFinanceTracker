@@ -34,6 +34,7 @@ builder.Services.AddScoped<IRepository<Income>, Repository<Income>>();
 builder.Services.AddSingleton<EncryptionHelper>();
 builder.Services.AddScoped<IncomeService>();
 builder.Services.AddScoped<UsersService>();
+builder.Services.AddScoped<BanksService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
