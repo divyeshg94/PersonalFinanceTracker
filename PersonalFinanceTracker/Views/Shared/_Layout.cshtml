@@ -30,13 +30,6 @@
 
     <script src="~/js/app/helper.js" defer></script>
     <script src="~/js/app/controller.js" defer></script>
-
-    @* Chart.js *@
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    @* <script src="~/js/chart.js.4.4.1/Chart.helper.min.js" defer></script>
-    <script src="~/js/chart.js.4.4.1/Chart.umd.min.js" defer></script>
-    <script src="~/js/chart.js.4.4.1/Chart.min.js" defer></script> *@
-
     @* DataTable *@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -48,7 +41,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MoneyPal</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Personal Finance Tracker</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -63,6 +56,9 @@
                         </li> *@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Income" asp-action="Index">Income</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Expense" asp-action="Index">Expense</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Bank" asp-action="Index">Bank</a>

@@ -1,0 +1,153 @@
+﻿@model PersonalFinanceTracker.Model.ExpenseOut
+
+<h4>Expenses</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditExpense" id="editExpenseForm">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Bank Name</label>
+                <select id="bankSelect" asp-for="BankId" class="form-control">
+                    <option value="">None</option>
+                    @foreach (var bank in Model.Banks)
+                    {
+                        <option value="@bank.Id">@bank.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="BankId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Currency</label>
+                <select id="currencySelect" asp-for="CurrencyCode" class="form-control">
+                    @foreach (var currency in Model.UserCurrencies)
+                    {
+                        <option value="@currency">@currency</option>
+                    }
+                </select>
+                <span asp-validation-for="CurrencyCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaidVia" class="control-label"></label>
+                <select asp-for="PaidVia" class="form-control">
+                    <option value="Cash">Cash</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Net Banking">Net Banking</option>
+                    <option value="UPI">UPI</option>
+                </select>
+                <span asp-validation-for="PaidVia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="Category" class="form-control">
+                    <option value="Food">Food</option>
+                    <option value="Grocery">Grocery</option>
+                    <option value="Medical">Medical</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Education">Education</option>
+                    <option value="Online">Online</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Sports">Sports</option>
+                    <option value="EMI">EMI</option>
+                    <option value="IMPS">IMPS</option>
+                    <option value="Transfer">Transfer</option>
+                    <option value="Savings">Savings</option>
+                    <option value="Investment">Investment</option>
+                    <option value="Debt">Debt</option>
+                    <option value="Loan">Loan</option>
+                    <option value="Others">Others</option>
+                </select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="CreatedDateTime" class="control-label"></label>
+                <input asp-for="CreatedDateTime" class="form-control" />
+                <span asp-validation-for="CreatedDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="UpdatedDateTime" class="control-label"></label>
+                <input asp-for="UpdatedDateTime" class="form-control" />
+                <span asp-validation-for="UpdatedDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-check" style="margin-left: 10px;">
+                <input type="checkbox" asp-for="IsExcludeTransaction" class="form-check-input" />
+                <label asp-for="IsExcludeTransaction" class="form-check-label"></label>
+                <span asp-validation-for="IsExcludeTransaction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var modelData = @Html.Raw(Json.Serialize(Model));
+        const bankSelect = document.getElementById('bankSelect');
+        const currencySelect = document.getElementById('currencySelect');
+
+        bankSelect.addEventListener('change', function () {
+            const selectedBankId = bankSelect.value;
+            const selectedBank = modelData.banks.find(bank => bank.id === selectedBankId);
+
+            if (selectedBank) {
+                currencySelect.value = selectedBank.currencyCode;
+                currencySelect.disabled = true;
+            } else {
+                currencySelect.value = modelData.userCurrencies[0];
+                currencySelect.disabled = false;
+            }
+        });
+
+        document.getElementById('editExpenseForm').onsubmit = function () {
+            document.getElementById('currencySelect').disabled = false;
+        };
+    });
+</script>

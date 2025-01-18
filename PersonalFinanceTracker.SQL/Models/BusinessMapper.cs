@@ -20,6 +20,14 @@ namespace PersonalFinanceTracker.SQL.Models
             // Reverse mapping: from IncomeOut to Income
             CreateMap<IncomeIn, Income>()
                 .ForMember(dest => dest.EncryptedAmount, opt => opt.MapFrom(src => src.Amount));
+
+            CreateMap<Expenses, ExpenseIn>().ReverseMap();
+
+            CreateMap<Expenses, ExpenseOut>()
+            .ForMember(dest => dest.UserCurrencies, opt => opt.Ignore());  // Ignore UserCurrencies if not needed
+
+            // Map from ExpenseOut (DTO) back to Expenses (entity)
+            CreateMap<ExpenseOut, Expenses>();
         }
     }
 }
