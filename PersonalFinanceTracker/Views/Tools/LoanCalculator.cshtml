@@ -1,0 +1,209 @@
+﻿<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin-top: 30px;
+    }
+
+    .input-section, .output-section {
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-label, .output-label {
+        font-weight: bold;
+    }
+
+    .output-value {
+        font-size: 1.2em;
+        color: green;
+    }
+
+    .result-section {
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f3f4f6;
+    }
+</style>
+
+@{
+    ViewData["Title"] = "Loan Calculator";
+}
+
+<div class="">
+    <h1 class="text-center mb-4">Loan Calculator</h1>
+    <div class="row">
+        <!-- Input Section -->
+        <div class="col-md-6 input-section">
+            <h5>Loan Details:</h5>
+            <div class="mb-3">
+                <label title="Total loan amount">Loan Amount</label>
+                <input type="number" id="loanAmount" class="form-control" placeholder="e.g., 10000" value="10000" />
+            </div>
+            <div class="mb-3">
+                <label title="Annual interest rate on the loan">Interest Rate (%)</label>
+                <input type="number" id="interestRate" class="form-control" placeholder="e.g., 5" value="4.9" />
+            </div>
+            <div class="mb-3">
+                <label title="Loan repayment term in years">Loan Term (Years)</label>
+                <input type="number" id="loanTerm" class="form-control" placeholder="e.g., 5" value="5" />
+            </div>
+            <div class="mb-3">
+                <label title="Extra payment made each month">Additional Monthly Payment</label>
+                <input type="number" id="extraPayment" class="form-control" placeholder="e.g., 100" value="0" />
+            </div>
+            <button class="btn btn-primary w-100" onclick="calculateLoan()">Calculate</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="col-md-6 output-section">
+            <h5>Output:</h5>
+            <div class="mb-3">
+                <label title="Monthly payment for the loan">Monthly Payment:</label>
+                <p id="monthlyPayment" class="output-value">$0</p>
+            </div>
+            <div class="mb-3">
+                <label title="Total interest paid over the life of the loan">Total Interest Paid:</label>
+                <p id="totalInterest" class="output-value">$0</p>
+            </div>
+            <div class="mb-3">
+                <label title="Estimated time to pay off the loan with additional payments">Loan Payoff Time:</label>
+                <p id="payoffTime" class="output-value">0 months</p>
+            </div>
+
+            <!-- Chart Section -->
+            <canvas id="loanChart" style="display: none; margin-top: 20px;"></canvas>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div id="table-section" class="result-section mt-4" style="display: none;">
+        <h5>Amortization Schedule:</h5>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Beginning Balance</th>
+                    <th>Monthly Payment</th>
+                    <th>Interest</th>
+                    <th>Principal</th>
+                    <th>Ending Balance</th>
+                </tr>
+            </thead>
+            <tbody id="amortizationSchedule"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    function calculateLoan() {
+        const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+        const interestRate = parseFloat(document.getElementById('interestRate').value) / 100 / 12;
+        const loanTerm = parseInt(document.getElementById('loanTerm').value) * 12;
+        const extraPayment = parseFloat(document.getElementById('extraPayment').value) || 0;
+        const amortizationData = [];
+
+        let monthlyPayment = loanAmount * interestRate / (1 - Math.pow(1 + interestRate, -loanTerm));
+        let totalInterest = 0;
+        let payoffMonths = 0;
+        let balance = loanAmount;
+        let chartData = {
+            labels: [],
+            balanceData: []
+        };
+
+        while (balance > 0) {
+            let interest = balance * interestRate;
+            let principal = monthlyPayment + extraPayment - interest;
+            balance -= principal;
+
+            if (balance < 0) {
+                principal += balance;
+                balance = 0;
+            }
+
+            totalInterest += interest;
+            payoffMonths++;
+
+            // Store data for the table
+            amortizationData.push({
+                month: payoffMonths,
+                beginningBalance: balance + principal,
+                monthlyPayment: (monthlyPayment + extraPayment).toFixed(2),
+                interest: interest.toFixed(2),
+                principal: principal.toFixed(2),
+                endingBalance: balance.toFixed(2)
+            });
+
+            // Store data for the chart
+            chartData.labels.push(`Month ${payoffMonths}`);
+            chartData.balanceData.push(balance.toFixed(2));
+        }
+
+        document.getElementById('monthlyPayment').innerText = `$${monthlyPayment.toFixed(2)}`;
+        document.getElementById('totalInterest').innerText = `$${totalInterest.toFixed(2)}`;
+        document.getElementById('payoffTime').innerText = `${payoffMonths} months`;
+        renderTable(amortizationData);
+        renderChart(chartData);
+    }
+
+    function renderTable(data) {
+        const amortizationSchedule = document.getElementById('amortizationSchedule');
+        amortizationSchedule.innerHTML = '';
+        data.forEach(row => {
+            amortizationSchedule.innerHTML += `
+                        <tr>
+                            <td>${row.month}</td>
+                            <td>$${row.beginningBalance.toFixed(2)}</td>
+                            <td>$${row.monthlyPayment}</td>
+                            <td>$${row.interest}</td>
+                            <td>$${row.principal}</td>
+                            <td>$${row.endingBalance}</td>
+                        </tr>
+                    `;
+        });
+        document.getElementById('table-section').style.display = 'block';
+    }
+
+    function renderChart(chartData) {
+        const ctx = document.getElementById('loanChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Remaining Balance Over Time',
+                    data: chartData.balanceData,
+                    borderColor: '#007bff',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Balance ($)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Months'
+                        }
+                    }
+                }
+            }
+        });
+        document.getElementById('loanChart').style.display = 'block';
+    }
+</script>

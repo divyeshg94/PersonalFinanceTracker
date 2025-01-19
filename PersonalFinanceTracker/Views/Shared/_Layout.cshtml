@@ -10,6 +10,7 @@
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -63,10 +64,27 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Bank" asp-action="Index">Bank</a>
                             </li>
-                            
+                            <li class="nav-item dropdown pt-2">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Tools
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="FireCalculator" asp-action="Index">FIRE Calculator</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Tools" asp-action="RetirementCalculator">Retirement Calculator</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Tools" asp-action="LoanCalculator">Loan Calculator</a>
+                                    </li>
+                                    <!-- You can add more dropdown items here -->
+                                </ul>
+                            </li>
                             <li class="dropdown pull-right" style="padding-left:50px;">
                                 <input class="styled-select" type="text" title="daterangepicker" id="dateRangePicker">
                             </li>
+
                         </ul>
                     }
                     <partial name="_LoginPartial" />

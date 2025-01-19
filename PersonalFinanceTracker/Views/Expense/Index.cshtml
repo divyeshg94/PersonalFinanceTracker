@@ -13,19 +13,7 @@
         <span class="btn-inner--icon"><i class="fa fa-refresh"></i></span>
         <span class="btn-inner--text">Refresh</span>
     </button>
-
-    <button class="btn btn-icon btn-3 btn-primary" type="button" id="download" title="download sample">
-        <span class="btn-inner--icon"><i class="fa fa-download"></i></span>
-        <span class="btn-inner--text">Download</span>
-    </button>
 </p>
-
-@using (Html.BeginForm("Upload", "Income", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <input type="file" class="btn btn-outline-primary btn-3" multiple name="file" />
-    <input type="submit" class="btn btn-outline-primary btn-3" value="Upload" />
-}
-<br />
 
 @* 
 <div class="row">

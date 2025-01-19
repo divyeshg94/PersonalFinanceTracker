@@ -1,3 +1,4 @@
+using Going.Plaid;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,8 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 
 builder.Services.Configure<EncryptionSettings>(builder.Configuration.GetSection("EncryptionSettings"));
+builder.Services.Configure<PlaidCredentials>(builder.Configuration.GetSection(PlaidOptions.SectionKey));
+builder.Services.Configure<PlaidOptions>(builder.Configuration.GetSection(PlaidOptions.SectionKey));
 
 builder.Services.AddDbContext<PFTDbContext, PFTDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -30,12 +33,16 @@ builder.Services.AddDbContext<PFTDbContext, PFTDbContext>(options =>
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IRepository<Income>, Repository<Income>>();
+builder.Services.AddSingleton<PlaidClient>();
+builder.Services.AddScoped<PlaidUserItemService>();
 
 builder.Services.AddSingleton<EncryptionHelper>();
 builder.Services.AddScoped<IncomeService>();
 builder.Services.AddScoped<UsersService>();
 builder.Services.AddScoped<BanksService>();
 builder.Services.AddScoped<ExpenseService>();
+builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<PlainLinkService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

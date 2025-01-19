@@ -9,6 +9,7 @@ namespace PersonalFinanceTracker.SQL
         public DbSet<Users> Users { get; set; }
         public DbSet<Banks> Banks { get; set; }
         public DbSet<Expenses> Expenses { get; set; }
+        public DbSet<PlaidUserItems> PlaidUserItems { get; set; }
 
         public PFTDbContext() { }
 

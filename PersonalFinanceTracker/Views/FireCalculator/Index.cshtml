@@ -1,0 +1,80 @@
+﻿@model PersonalFinanceTracker.Model.FireInputModel
+
+@{
+    ViewData["Title"] = "FIRE Calculator";
+}
+
+<h1 class="text-center">FIRE Calculator</h1>
+<h4 class="text-center">Financial Independence Retire Early!</h4>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <h2>Input:</h2>
+        <form id="fireForm">
+            <div class="form-group">
+                <label for="MonthlyExpense">Monthly Expense</label>
+                <input id="MonthlyExpense" name="MonthlyExpense" class="form-control" type="number" step="0.01" value="3000" />
+            </div>
+            <div class="form-group">
+                <label for="CurrentAge">Current Age</label>
+                <input id="CurrentAge" name="CurrentAge" class="form-control" type="number" value="30" />
+            </div>
+            <div class="form-group">
+                <label for="RetirementAge">Retirement Age</label>
+                <input id="RetirementAge" name="RetirementAge" class="form-control" type="number" value="60" />
+            </div>
+            <div class="form-group">
+                <label for="InflationRate">Assumed Inflation Rate</label>
+                <input id="InflationRate" name="InflationRate" class="form-control" type="number" step="0.01" value="7" />
+            </div>
+            <div class="form-group">
+                <label for="CoastFireAge">Desired Coast FIRE age</label>
+                <input id="CoastFireAge" name="CoastFireAge" class="form-control" type="number" value="50" />
+            </div>
+            <button type="button" class="btn btn-primary calculateBtn">Calculate</button>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <h2>Output:</h2>
+        <div id="fireResults" style="display: none;">
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label>Expense Today</label>
+                    <p id="expenseToday" class="form-control-plaintext"></p>
+                </div>
+                <div class="col-lg-6">
+                    <label>Expense at Retirement</label>
+                    <i class="fa-solid fa-circle-exclamation" title="Inflation Adjusted Yearly cost at the age of retirement"></i>
+                    <p id="expenseAtRetirement" class="form-control-plaintext"></p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label>Lean FIRE</label>
+                    <i class="fa-solid fa-circle-exclamation" title="If you have achieved Lean FIRE, it means you can continue working for a smaller income, such as through a hobby. To reach this goal, adjust your yearly expenses according to the inflation rate and then multiply by 20."></i>
+                    <p id="leanFire" class="form-control-plaintext"></p>
+                </div>
+                <div class="col-lg-6">
+                    <label>FIRE</label>
+                    <i class="fa-solid fa-circle-exclamation" title="If you have achieved FIRE, it means you have enough savings and investments to cover your living expenses indefinitely. To reach this goal, adjust your yearly expenses according to the inflation rate and then multiply by 25. With FIRE, you can spend 4% of your total FIRE savings annually and never run out of money."></i>
+                    <p id="fire" class="form-control-plaintext"></p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label>Fat FIRE</label>
+                    <i class="fa-solid fa-circle-exclamation" title="Fat FIRE aims to provide financial independence while maintaining a high standard of living, ensuring that you can enjoy the finer things in life even in retirement."></i>
+                    <p id="fatFire" class="form-control-plaintext"></p>
+                </div>
+                <div class="col-lg-6">
+                    <label>Coast FIRE</label>
+                    <i class="fa-solid fa-circle-exclamation" title="Save aggressively early, then let compound interest grow your savings to the needed amount by retirement age, while continuing to work to cover current expenses without further retirement contributions."></i>
+                    <p id="coastFire" class="form-control-plaintext"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/app/fireCalculator.js" defer></script>

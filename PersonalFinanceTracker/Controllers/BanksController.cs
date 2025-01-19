@@ -16,14 +16,17 @@ namespace PersonalFinanceTracker.Controllers
         private readonly PFTDbContext _dbContext;
         private readonly BanksService _banksService;
         private readonly UsersService _usersService;
+        private readonly PlainLinkService _plainLinkService;
 
         public BankController(ILogger<BankController> logger,
             PFTDbContext dbContext,
             UsersService usersService,
             BanksService banksService,
+            PlainLinkService plainLinkService,
             Microsoft.AspNetCore.Hosting.IHostingEnvironment environment, IConfiguration configuration)
         {
             _logger = logger;
+            _plainLinkService = plainLinkService;
             _banksService = banksService;
             _usersService = usersService;
             _dbContext = dbContext;
@@ -103,6 +106,20 @@ namespace PersonalFinanceTracker.Controllers
 
             var bank = await _banksService.Get(id.Value);
             return View(bank);
+        }
+        
+        public async Task<JsonResult> CreateLinkToken([FromQuery] bool? fix)
+        {
+            var token = await _plainLinkService.CreateLinkToken(fix);
+            return new JsonResult(token);
+        }
+
+        [HttpPost]
+        public async Task<PlaidCredentials> ExchangeToken([FromBody] LinkResult link)
+        {
+            var userId = GetUserId(_dbContext);
+            var result = await _plainLinkService.ExchangePublicToken(link.public_token, userId);
+            return result;
         }
 
         [HttpPost]

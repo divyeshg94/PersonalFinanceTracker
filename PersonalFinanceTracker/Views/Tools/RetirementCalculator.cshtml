@@ -1,0 +1,114 @@
+﻿<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin-top: 30px;
+    }
+
+    .input-section, .output-section {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-label, .output-label {
+        font-weight: bold;
+    }
+
+    .output-value {
+        font-size: 1.2em;
+        color: green;
+    }
+
+    .result-section {
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f3f4f6;
+    }
+</style>
+
+@{
+    ViewData["Title"] = "Retirement Calculator";
+}
+
+<div class="">
+    <h1 class="text-center mb-4">Retirement Calculator</h1>
+    <div class="row">
+        <!-- Input Section -->
+        <div class="col-md-6 input-section">
+            <h5>Input:</h5>
+            <div class="mb-3">
+                <label class="input-label">Annual Income</label>
+                <i class="fa-solid fa-circle-exclamation" title="Your current annual income after taxes"></i>
+                <input type="number" id="annualIncome" class="form-control" placeholder="e.g., 50000" />
+            </div>
+            <div class="mb-3">
+                <label class="input-label">Annual Expenses</label>
+                <i class="fa-solid fa-circle-exclamation" title="Your annual living expenses"></i>
+                <input type="number" id="annualExpenses" class="form-control" placeholder="e.g., 40000" />
+            </div>
+            <div class="mb-3">
+                <label class="input-label">Current Savings</label>
+                <i class="fa-solid fa-circle-exclamation" title="Your current total savings"></i>
+                <input type="number" id="currentSavings" class="form-control" placeholder="e.g., 10000" />
+            </div>
+            <div class="mb-3">
+                <label class="input-label">Savings Rate (%)</label>
+                <i class="fa-solid fa-circle-exclamation" title="The percentage of your income saved each year"></i>
+                <input type="number" id="savingsRate" class="form-control" placeholder="e.g., 20" />
+            </div>
+            <div class="mb-3">
+                <label class="input-label">Annual ROI (%)</label>
+                <i class="fa-solid fa-circle-exclamation" title="The expected annual return on your investments"></i>
+                <input type="number" id="roi" class="form-control" placeholder="e.g., 7" />
+            </div>
+            <div class="mb-3">
+                <label class="input-label">Withdrawal Rate (%)</label>
+                <i class="fa-solid fa-circle-exclamation" title="The percentage you plan to withdraw each year in retirement"></i>
+                <input type="number" id="withdrawalRate" class="form-control" placeholder="e.g., 4" />
+            </div>
+            <button class="btn btn-primary w-100 calculateBtn">Calculate</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="col-md-6 output-section">
+            <h5>Output:</h5>
+            <div class="mb-3">
+                <label>Years to Retirement:</label>
+                <i class="fa-solid fa-circle-exclamation" title="Estimated years until you can retire"></i>
+                <p id="yearsToRetire" class="output-value">0</p>
+            </div>
+            <div class="mb-3">
+                <label>Total Savings at Retirement:</label>
+                <i class="fa-solid fa-circle-exclamation" title="Your total savings at the time of retirement"></i>
+                <p id="totalSavings" class="output-value">$0</p>
+            </div>
+
+            <!-- Chart Section -->
+            <canvas id="savingsChart" style="display: none; margin-top: 20px;"></canvas>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div id="table-section" class="result-section mt-4" style="display: none;">
+        <h5>Yearly Breakdown:</h5>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Savings at Start</th>
+                    <th>Annual Savings</th>
+                    <th>Investment Growth</th>
+                    <th>Total Savings</th>
+                </tr>
+            </thead>
+            <tbody id="yearlyData"></tbody>
+        </table>
+    </div>
+</div>
+<script src="~/js/app/retirementCalculator.js" defer></script>

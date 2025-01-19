@@ -17,7 +17,7 @@
             if (currencies)
                 return currencies[0];
         }
-        return "INR";
+        return "USD";
     }
 
     function getUserLocale() {
